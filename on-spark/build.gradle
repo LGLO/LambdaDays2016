@@ -1,0 +1,24 @@
+plugins {
+    id "org.frege-lang" version "0.6"
+}
+apply plugin: "application"
+
+allprojects {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            url = "https://oss.sonatype.org/content/groups/public/"
+        }
+    }
+    ext.frege_core = 'org.frege-lang:frege:3.23.450-SNAPSHOT'
+}
+
+mainClassName = "com.github.LGLO.lambdadays.App"
+
+dependencies{
+    compile frege_core
+    compile "com.sparkjava:spark-core:2.3"
+    compile project(":validator")
+}
+

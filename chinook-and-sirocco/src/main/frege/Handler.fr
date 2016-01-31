@@ -1,0 +1,32 @@
+module jsonlint.Handlers where
+
+import Data.JSON
+import jsonlint.JsonLint
+import jsonlint.DB
+import chinook.util.ContentType
+import chinook.Chinook (Request, Response, response)
+
+validateHandler :: IO Request -> IO Response
+validateHandler req = do body <- req.body
+                         validate body
+
+validate :: Maybe String -> IO Response
+validate Nothing = missingBody 
+validate (Just "") = missingBody
+validate (Just body) =
+    let result = validateJson body
+      in do _ <- DB.logRequest body (isValid result)
+            return (toResponse result)
+
+missingBody = IO.return (mkResponse 400 "There is no BODY.")
+
+toResponse = either (mkResponse 400) (mkResponse 200)
+
+mkResponse status output = 
+  response.{ status = status, output = Just output }
+
+isValid (Left _) = false
+isValid (Right _) = true
+
+
+

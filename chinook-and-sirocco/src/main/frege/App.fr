@@ -1,0 +1,13 @@
+--- This module registers handlers to a given URI
+module jsonlint.App where
+
+import chinook.Chinook (get)
+import jsonlint.DB
+import jsonlint.Handlers (validateHandler)
+-- tag::routes[]
+main _  = do
+    DB.createRequestsTable
+  --get  :: String -> (IO Request -> IO Response) -> IO ()
+    get    "/validate"       validateHandler
+    get    "/"               validateHandler
+-- end::routes[]

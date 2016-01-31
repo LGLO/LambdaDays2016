@@ -1,0 +1,5 @@
+apply plugin: 'org.frege-lang'
+
+dependencies{
+    compile frege_core
+}

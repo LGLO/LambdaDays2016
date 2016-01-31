@@ -1,0 +1,126 @@
+module com.fasterxml.jackson.FregeJackson where
+
+data JsonProcessingException = native com.fasterxml.jackson.core.JsonProcessingException where
+
+  native getMessage :: Mutable s JsonProcessingException -> ST s String
+
+  native getOriginalMessage :: Mutable s JsonProcessingException -> ST s String
+
+  native toString :: Mutable s JsonProcessingException -> ST s String
+
+derive Exceptional JsonProcessingException
+
+data ObjectReader = pure native com.fasterxml.jackson.databind.ObjectReader where
+
+  pure native readTree :: ObjectReader -> String -> (IOException | JsonNode) -- throws JsonProcessingException, IOException
+                   
+data ObjectMapper = native com.fasterxml.jackson.databind.ObjectMapper where
+
+  native new :: () -> STMutable s ObjectMapper
+              
+  native reader :: Mutable s ObjectMapper -> ST s ObjectReader
+
+data JsonNode = pure native com.fasterxml.jackson.databind.JsonNode where
+
+  pure native asBoolean :: JsonNode -> Bool -> Bool
+                         | JsonNode -> Bool
+
+  pure native asDouble :: JsonNode -> Double
+                        | JsonNode -> Double -> Double
+
+  pure native asInt :: JsonNode -> Int -> Int
+                     | JsonNode -> Int
+
+  pure native asLong :: JsonNode -> Long -> Long
+                      | JsonNode -> Long
+
+  pure native asText :: JsonNode -> String -> String
+                      | JsonNode -> String
+
+  pure native bigIntegerValue :: JsonNode -> Integer
+
+  native binaryValue :: JsonNode -> STMutable s (JArray Byte) throws IOException
+
+  pure native booleanValue :: JsonNode -> Bool
+
+  pure native canConvertToInt :: JsonNode -> Bool
+
+  pure native canConvertToLong :: JsonNode -> Bool
+
+  pure native doubleValue :: JsonNode -> Double
+
+  pure native findParent :: JsonNode -> String -> JsonNode
+
+  pure native findPath :: JsonNode -> String -> JsonNode
+
+  pure native findValue :: JsonNode -> String -> JsonNode
+
+  pure native floatValue :: JsonNode -> Float
+
+  pure native get :: JsonNode -> Int -> JsonNode
+                   | JsonNode -> String -> JsonNode
+
+  pure native has :: JsonNode -> Int -> Bool
+                   | JsonNode -> String -> Bool
+
+  pure native hasNonNull :: JsonNode -> String -> Bool
+                          | JsonNode -> Int -> Bool
+
+  pure native intValue :: JsonNode -> Int
+
+  pure native isArray :: JsonNode -> Bool
+
+  pure native isBigDecimal :: JsonNode -> Bool
+
+  pure native isBigInteger :: JsonNode -> Bool
+
+  pure native isBinary :: JsonNode -> Bool
+
+  pure native isBoolean :: JsonNode -> Bool
+
+  pure native isContainerNode :: JsonNode -> Bool
+
+  pure native isDouble :: JsonNode -> Bool
+
+  pure native isFloat :: JsonNode -> Bool
+
+  pure native isFloatingPointNumber :: JsonNode -> Bool
+
+  pure native isInt :: JsonNode -> Bool
+
+  pure native isIntegralNumber :: JsonNode -> Bool
+
+  pure native isLong :: JsonNode -> Bool
+
+  pure native isMissingNode :: JsonNode -> Bool
+
+  pure native isNull :: JsonNode -> Bool
+
+  pure native isNumber :: JsonNode -> Bool
+
+  pure native isObject :: JsonNode -> Bool
+
+  pure native isPojo :: JsonNode -> Bool
+
+  pure native isShort :: JsonNode -> Bool
+
+  pure native isTextual :: JsonNode -> Bool
+
+  pure native isValueNode :: JsonNode -> Bool
+
+  pure native longValue :: JsonNode -> Long
+
+  pure native path :: JsonNode -> String -> JsonNode
+                    | JsonNode -> Int -> JsonNode
+
+  pure native shortValue :: JsonNode -> Short
+
+  pure native size :: JsonNode -> Int
+
+  pure native textValue :: JsonNode -> String
+
+  pure native toString :: JsonNode -> String
+
+  pure native with :: JsonNode -> String -> JsonNode
+
+  pure native withArray :: JsonNode -> String -> JsonNode

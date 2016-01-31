@@ -1,0 +1,19 @@
+module jsonlint.CallJava where
+
+data JacksonJsonNode = native com.fasterxml.jackson.databind.JsonNode where
+    pure native toString :: JacksonJsonNode -> String
+
+pure native getMessage :: IllegalArgumentException -> String
+
+data JacksonWrapper = native com.github.LGLO.lambdadays.JacksonWrapper where
+    pure native parse com.github.LGLO.lambdadays.JacksonWrapper.parse ::
+                        String -> (IllegalArgumentException | JacksonJsonNode)
+
+validateJson :: String -> Either String String
+validateJson a = case (JacksonWrapper.parse a) of 
+                   Left err -> Left (err.getMessage)
+                   Right j -> Right j.toString
+
+main = do
+         println $ validateJson "{ \"event\" : \"LambdaDays2016\", \"isGreat\":true}"
+         println $ validateJson "[123, iamInvalid]"

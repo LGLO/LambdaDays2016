@@ -1,0 +1,21 @@
+// for fetching the plugin from gradle plugin portal
+plugins {
+    id "org.frege-lang" version "0.7"
+}
+apply plugin: 'org.frege-lang'
+apply plugin: 'application'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+        url = "https://oss.sonatype.org/content/groups/public/"
+    }
+}
+
+dependencies {
+    compile 'org.frege-lang:frege:3.23.450-SNAPSHOT'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.6.4'
+}
+
+mainClassName = "jsonlint.CallJava"

@@ -1,0 +1,17 @@
+module TeleTime where
+
+-- 'mutable' Restricts return type to ST RealWorld (IO)
+-- saves typing 'Mutable RealWorld'
+data TT = mutable native io.TelephoneTime where
+    native new :: () -> IO TT -- IO = ST RealWorld
+    native printTime :: TT -> IO ()
+
+data TT2 = native io.TelephoneTime where
+    native new :: () -> STMutable RealWorld TT2
+    native printTime :: Mutable RealWorld TT2 -> IO ()
+
+main = do
+         tt <- TT.new () -- tt is TT
+         tt.printTime
+         tt2 <- TT2.new () -- tt2 is Mutable RealWorld TT2
+         tt2.printTime

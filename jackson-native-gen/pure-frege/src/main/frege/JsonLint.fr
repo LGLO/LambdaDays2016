@@ -1,0 +1,15 @@
+module jsonlint.JsonLint where
+
+import com.fasterxml.jackson.FregeJackson
+
+newReader = ST.run (do
+                mutableMapper <- ObjectMapper.new ()
+                ObjectMapper.reader mutableMapper
+             )
+        
+validateJson a = either (\e->Left e.getMessage) (\jsonNode -> Right jsonNode.toString) (newReader.readTree a)
+
+main = do
+         println $ validateJson "{ \"event\" : \"LambdaDays2016\", \"isGreat\":true}"
+         println $ validateJson "[123, iamInvalid]"
+         

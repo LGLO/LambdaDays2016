@@ -1,0 +1,19 @@
+// for fetching the plugin from gradle plugin portal
+plugins {
+  id "org.frege-lang" version "0.6"
+}
+
+apply plugin: 'org.frege-lang'
+apply plugin: 'application'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies{
+    compile 'org.frege-lang:frege:3.23.450-SNAPSHOT'
+    compile project(':java')
+}
+
+mainClassName = project.mainClass

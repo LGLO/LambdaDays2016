@@ -1,0 +1,24 @@
+module AB where
+
+-- AB is envelope for final int 'a' and non final int 'b'
+data AB = native mutable.AB where
+    native new :: Int -> Int -> STMutable s AB
+    pure native a getA :: AB -> Int
+    native getB :: Mutable s AB -> ST s Int
+    native setB :: Mutable s AB -> Int -> ST s ()
+
+tripleA :: AB -> Int
+tripleA ab = (fromInt ab.a) * 3
+
+manipulate :: Int -> Int -> Int -> String
+manipulate a b c = 
+  ST.run do
+           ab <- AB.new a b --ab is Mutable s AB in ST monad
+           a1 <- readonly tripleA ab --a1 is not Mutable thanks to readonly
+           b1 <- ab.getB --b1 is not Mutable by 'getB' type
+           _  <- ab.setB c
+           b2 <- ab.getB
+           return $ "a1 = " ++ (show a1) ++ "\nb1 = " ++ (show b1) ++ "\nb2 = " ++ (show b2) 
+    
+main = do
+         println $ manipulate 1 2 3

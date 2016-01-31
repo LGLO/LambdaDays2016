@@ -1,0 +1,24 @@
+// for fetching the plugin from gradle plugin portal
+plugins {
+    id "org.frege-lang" version "0.7"
+}
+apply plugin: 'org.frege-lang'
+apply plugin: 'application'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+        url = "https://oss.sonatype.org/content/groups/public/"
+    }
+}
+
+dependencies {
+    compile 'org.frege-lang:frege:3.23.450-SNAPSHOT'
+    compile 'org.frege-lang:frege-repl-core:1.4-SNAPSHOT'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.6.4'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.5.3'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.5.0'
+}
+
+mainClassName = "jsonlint.JsonLint"

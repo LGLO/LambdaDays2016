@@ -1,0 +1,26 @@
+// for fetching the plugin from gradle plugin portal
+plugins {
+    id "org.frege-lang" version "0.7"
+}
+
+apply plugin: 'org.frege-lang'
+apply plugin: 'application'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    // for chinook and sirocco, but I have locally build with newer Frege
+    //maven { url "http://dl.bintray.com/januslynd/maven" }
+    maven {
+        url = "https://oss.sonatype.org/content/groups/public/"
+    }
+}
+
+dependencies {
+    compile 'org.frege-lang:frege:3.23.450-SNAPSHOT'
+    compile 'com.github.januslynd:chinook-core:0.1.0-beta-eb1d7ee'
+    compile 'com.github.januslynd:sirocco-core:0.1.0-beta-0c7e2db'
+    runtime 'com.h2database:h2:1.4.187'
+}
+
+mainClassName = "jsonlint.App"

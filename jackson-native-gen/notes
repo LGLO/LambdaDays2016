@@ -1,0 +1,11 @@
+Workflow:
+Edit 'types.properties'.
+Run frege-gen-native tool..
+Cut interesting parts from 'generated-sources' and paste to file.
+Delete what does not compile and is not essential.
+Change order of exceptions, because of "has already been caught" error.
+Refine return type:
+  native reader :: Mutable s ObjectMapper -> ST s t
+  to:
+  native reader :: Mutable s ObjectMapper -> ST s ObjectReader
+Change ObjectReader.readTree to pure (for String only) and get rid of ST.

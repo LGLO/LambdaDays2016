@@ -1,0 +1,15 @@
+module MyMath where
+
+import Prelude.Math
+
+--- Solves ax^2+bx+c = 0 equation
+-- Names are choosen to find code in generated Java
+solve a b c = if (delta < 0)
+                 then []::[Double]
+                 else if (delta == 0)
+                      then [helper 0]
+                      else [helper sqrtD, helper (-sqrtD)]
+              where delta = b*b-4*a*c
+                    sqrtD = Math.sqrt delta
+                    helper = \ x -> (x-b) / (2*a)
+                    

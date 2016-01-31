@@ -1,0 +1,13 @@
+module jsonlint.JsonLint where
+
+import Data.JSON
+
+-- Parsing to JSON AST is enough for validation
+parseToValue :: String -> Either String JSON.Value
+parseToValue = parseJSON
+
+validateJson :: String -> Either String String -- optional thanks to type inference
+validateJson a = case (parseToValue a) of Left err -> Left err
+                                          Right v -> Right (show v)
+
+

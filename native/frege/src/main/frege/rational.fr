@@ -1,0 +1,21 @@
+module Rational where
+
+data Rational = native immutable.Rational where
+    -- static
+    pure native new :: Long -> Long -> Rational
+    pure native integer immutable.Rational.integer :: Long -> Rational
+    -- instance
+    pure native toString :: Rational -> String
+    pure native add :: Rational -> Rational -> Rational
+    pure native div :: Rational -> Rational ->
+                       (IllegalArgumentException | Rational)
+    pure native divNull :: Rational -> Rational -> Maybe Rational
+
+
+oneAndHalf = Rational.new 3L 2L
+
+main = do
+         println oneAndHalf.toString
+        
+
+
