@@ -16,4 +16,4 @@ dependencies{
     compile project(':java')
 }
 
-mainClassName = project.mainClass
+mainClassName = project.hasProperty('mainClass') ? project.mainClass : 'MainClassIsMissingInBuild'
