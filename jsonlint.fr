@@ -17,14 +17,7 @@ type Validate = String -> Either String String
 validateJson a = case (parseToValue a) of Left err -> Left err
                                           Right v -> Right (show v)
 
-type Validate = String -> Either String String
--- As above with 'bind' operator
-validateJsonBind :: Validate
-validateJsonBind a = parseToValue a >>= (\v -> Right (show v))
-
-validateJsonDo a = do value <- parseToValue a
-                      Right (show value)
-                   
+                  
 main = do
        println $ validateJson valid
        println $ validateJson invalid

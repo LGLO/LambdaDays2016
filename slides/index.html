@@ -15,12 +15,13 @@
           color: red;
         }
         #slideshow .slide .content { padding: 1em 3em;
-          background: url(scalac.png) no-repeat top right; }
+          background-image: url(presentation/icon.png) no-repeat top right; }
+        .remark-slide {
+          background: url("scalac.png") no-repeat top right;
+        }
     </style>
   </head>
   <body>
-     <link rel="stylesheet" href="highlight/styles/default.css">
-     <script src="highlight/highlight.pack.js"></script>
 <textarea id="source">
 
 class: center, middle
@@ -31,12 +32,19 @@ class: center, middle
 <img src="Frege_logo.png" width="300">
 <img src="lambda-days-logo.png" width="300">
     
-    
-.right[
-    Lech Głowiak  
-    <img src="github.png" width="32"> @LGLO  
-    <img src="twitter.png" width="32"> @LechGlowiak
-    ]
+.footnote[Lech Głowiak]
+???
+My background:
+* Scala developer for few months (after CFP in fact)
+* Haskell during higher education only (until LambdaDays)
+* Java developer for 6 years, but I used `lambdaj` back in 2011, got little sick of complication level (not related to essential complexity)
+* Erlang - worked fine but I lacked compiler help, and `dialyzer` isn't good enough
+* Frege looked like a language for me  
+
+Purpose:
+* introduce language itself - features
+* show how to develop first applications mixing Java and Frege - JSONLINT
+* show some tools and links
 ---
 class: center, middle
 ## Frege Programming Language
@@ -47,19 +55,7 @@ class: center, middle
 .footnote[https://github.com/Frege/frege]
 
 ???
-My background:
-* Scala developer for few months (after CFP in fact)
-* Haskell during higher education only (until LambdaDays)
-* Java developer for 6 years, but I used `lambdaj` back in 2011, got little sick of complication level (not related to essential complexity)
-* Erlang - worked fine but I lacked compiler help, and `dialyzer` isn't good enough
-* Frege looked like a language for me
-
 In spirit -> Haskell for the JVM - direction changed a bit
-
-Agenda:
-* language itself - features
-* tools and links
-* how to develop first applications mixing Java and Frege
 
 Talk is introductory - more details on JVM interoperability only
 
@@ -97,7 +93,7 @@ Functions that take functions as arguments back in the 19th century.
 ???
 JVM interop is not as easy as in Clojure because of compiler watching out types.
 
-Show basics after presenting REPL
+Show `basics.hs` **AFTER** presenting REPL
 
 8mins
 ---
@@ -464,11 +460,24 @@ Generally it is good idea to make sub-project (sub-modules) for each language an
 TODO: commands to quickly show files with configuration
 
 ---
+##Eclipse plugin
+https://github.com/Frege/eclipse-plugin  
+Rumor says it's great, especially when you hack on Frege itself.
+
+#### Intellij IDEA misses good quality plugin
+But you can upvote it on: https://youtrack.jetbrains.com/issue/IDEABKL-7108
+---
 
 class: middle, center
 ##Questions???
-
-
+    
+---
+class: middle, center
+    
+# Lech Głowiak  
+<img src="scalac.png">  
+<h2><img src="github.png" width="48">@LGLO</h2>
+<h2><img src="twitter.png" width="48">@LechGlowiak</h2>
 ---
 class: middle, center
 ##Thank you!
@@ -479,12 +488,9 @@ I kindly ask for **frank** feedback!
 ???
 Code works with the latest versions of Frege, plugins, libraries as of February 2016
 That ends my first presentation - your feedback is important to (possible) future listeners.
-
- 
+    
     </textarea>
-     <div id="slideshow"></div>
-     <script src="remark/remark.js">
-    </script>
+    <script type="text/javascript" src="remark/remark.js"></script>
     <script>
        var slideshow = remark.create({highlightStyle: 'github'});
     </script>
