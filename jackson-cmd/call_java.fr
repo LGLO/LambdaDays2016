@@ -14,6 +14,11 @@ validateJson a = case (JacksonWrapper.parse a) of
                    Left err -> Left (err.getMessage)
                    Right j -> Right j.toString
 
+valid = "{ \"event\" : \"LambdaDays2016\", \"isGreat\":true}"
+invalid = "[123, iamInvalid]"
+
 main = do
-         println $ validateJson "{ \"event\" : \"LambdaDays2016\", \"isGreat\":true}"
-         println $ validateJson "[123, iamInvalid]"
+         println $ "Validating: " ++ valid
+         println $ validateJson valid 
+         println $ "Validating: " ++ invalid
+         println $ validateJson invalid

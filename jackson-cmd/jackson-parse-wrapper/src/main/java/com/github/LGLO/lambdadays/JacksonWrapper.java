@@ -6,9 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 
 public class JacksonWrapper {
-
-    private static ObjectMapper m = new ObjectMapper();
-    private static ObjectReader r = m.reader();
+    
+    private static ObjectReader r = new ObjectMapper().reader();
 
     public static JsonNode parse(String s) throws IllegalArgumentException{
         try {

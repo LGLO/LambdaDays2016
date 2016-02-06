@@ -29,7 +29,7 @@ class: center, middle
 ## Getting started with Frege
     
 ### Lambda Days 2016
-<img src="Frege_logo.png" width="300">
+<img src="Frege_logo.svg" width="300">
 <img src="lambda-days-logo.png" width="300">
     
 .footnote[Lech Głowiak]
@@ -49,7 +49,7 @@ Purpose:
 class: center, middle
 ## Frege Programming Language
 ###JVM language in spirit of Haskell  
-![](Frege_logo.png)  
+<img src="Frege_logo.svg" width="400">  
 ###Haskell for the JVM  
 
 .footnote[https://github.com/Frege/frege]
@@ -58,8 +58,6 @@ class: center, middle
 In spirit -> Haskell for the JVM - direction changed a bit
 
 Talk is introductory - more details on JVM interoperability only
-
-5mins
 ---
 
 class: middle, center
@@ -74,7 +72,7 @@ class: middle, center
 Philosopher, logician, mathematician
 Functions that take functions as arguments back in the 19th century.
 
-6mins
+3 mins
 ---
 
 ### Features
@@ -95,13 +93,13 @@ JVM interop is not as easy as in Clojure because of compiler watching out types.
 
 Show `basics.hs` **AFTER** presenting REPL
 
-8mins
+5 mins
 ---
 ### Distribution
 Prerequisites: JDK 7 or 8  
 Releases: https://github.com/Frege/frege/releases or [Maven](http://mvnrepository.com)/[Sonatype](https://search.maven.org)
 
-Make aliases in environments and you are set up for command line work!
+Make aliases in environment and you are set up for command line work!
 ```bash
 alias frege='java -Xss1m -cp build:$FREGE_HOME/fregec.jar'
 alias fregec='java -Xss1m -jar $FREGE_HOME/fregec.jar -d build'
@@ -110,8 +108,10 @@ alias fregec='java -Xss1m -jar $FREGE_HOME/fregec.jar -d build'
 ???
 * Download `.jar` to `FREGE_HOME`
 * Setup aliases
-* remember to have `build` folder where you compile         
+* remember to have `build` folder where you compile
+* I suggest reading wiki eventually
 
+6 mins
 ---
 ### Read Evaluate Process Loop 
 
@@ -149,21 +149,19 @@ greet name = println $ "Hello, " ++ name ++ "!"
 ---
 
 ### Online REPL
-
 There is at least one online REPL: http://try.frege-lang.org
-.center[<img src="online-repl.png" width="800">]
+<img src="online-repl.png" width="750">
 
 ???
 The 1st law of presentations: do not assume Internet connection, but try!
 
 ---
 
-### Froogle / Hoogle for Frege
-Froogle: http://froogle.mmhelloworld.com  
+### Hoogle for Frege (aka Froogle)
 Hoogle 5 for Frege: http://hoogle.haskell.org:8081
-.center[<img src="hoogle.png" width="700">]
+<img src="hoogle.png" width="750">
 ???
-20 mins
+17 mins
 ---
 
 ### Parsing JSON - first attempt
@@ -191,15 +189,15 @@ Micro-parsec is also built-in
 
 `parseToValue` reifies return type  
 `validateJson` type annotation is optional  
-`validateJson` could be implemented with `do notation`, `either`, `>>=` ...    
+`validateJson` could be implemented with `do notation`, `either`, `>>=` ...  
+20 mins
 ---
 
 ### Second attempt: using 3rd party JVM library
-         
-Wrappers can simplify `native` declarations
+I have chosen to do part of work in Java first.  
+Wrappers can simplify `native` declarations.
 ```java
-private static ObjectMapper m = new ObjectMapper();
-private static ObjectReader r = m.reader();
+private static ObjectReader r = new ObjectMapper().reader();
          
 public static JsonNode parse(String s)
         throws IllegalArgumentException{
@@ -234,10 +232,11 @@ validateJson a = case (JacksonWrapper.parse a) of
 
 ```
 ???
+.red[<big>SHOW NO CODE IS GENERATED</big>]  
 One option is to write thin wrapper layer in Java to help yourself with later 'native' declarations.  
 This is the last command line example.  
 BTW: all examples should compile.  
-
+23 mins
 ---
 
 ### Native declarations
@@ -256,7 +255,7 @@ data Rational = native immutable.Rational where
     pure native div :: Rational -> Rational ->
                        (IllegalArgumentException | Rational)
     pure native divNull :: Rational -> Rational -> Maybe Rational
---
+
 ```
 * native functions are strict on all arguments
 * native functions type must not have type class constraints
@@ -268,6 +267,8 @@ For `div` compiler generates Java code that catches exception and returns `Left 
     
 show: native/frege/src/main/frege/rational.fr  
 Show that there is no code generated in Rational.java
+
+25 mins
 ---
 
 ### Native declarations
@@ -280,7 +281,6 @@ data AB = native mutable.AB where
     pure native a getA :: AB -> Int
     native getB :: Mutable s AB -> ST s Int
     native setB :: Mutable s AB -> Int -> ST s ()
---
 ```
 `Mutable` cannot be instantiated by nor passed to `pure` function - it is compiler defense.
          
@@ -296,16 +296,18 @@ thaw :: Freezable f => m -> ST s (Mutable s m)
     
 `Freezable` is type class for mutable values that support making read-only copies. To be implemented with care.  
 `readonly` Apply a pure function to a mutable value that pretends to be read-only. The function must not rely on anything that could change in the mutable data!  
-`readonly id` - for very brave!    
+`readonly id` - for very brave!
+
+27 mins
 ---
          
 ### Native declarations
 
-#### `mutable native`:          
-    
-does not allow `STMutable s A` return  
-restricts return type to `ST RealWorld`, that is `IO`  
-don't have to type `Mutable RealWorld` everywhere    
+#### `mutable native`:
+* does not allow `STMutable s A` return  
+* restricts return type to `ST RealWorld`, that is `IO`  
+* you don't have to type `Mutable RealWorld` everywhere  
+
 ```haskell
 data TT = mutable native io.TelephoneTime where
     native new :: () -> IO TT -- IO = ST RealWorld
@@ -315,11 +317,9 @@ data TT2 = native io.TelephoneTime where
     native new :: () -> STMutable RealWorld TT2
     native printTime :: Mutable RealWorld TT2 -> IO ()    
 ```
-    
 ???
   
-  
-  
+28 mins
 ---
 
 ### native-gen-tool
@@ -372,6 +372,8 @@ output = either id id
 ???
 Show `App.java` and `JsonLint.fr`  
 Run `./valid.sh` and `./invalid.sh`
+
+34 mins
 ---
 ### Webservice #2 - Frege only* solution
 *Chinook* for web  
@@ -431,12 +433,13 @@ logRequest text valid =
 
 createRequestsTable :: IO ()
 createRequestsTable = do
-  stmt <- execute connection (Just "DROP TABLE requests")
+stmt <- execute connection (Just "DROP TABLE requests")
 --execute :: IO Connection -> Maybe String -> IO Bool
   stmt   <- execute connection (Just createTableSQL)
   println $ "Table 'requests' created: " ++ (show stmt)
 ```
-    
+???
+39 mins
 ---
 ### Gradle
 https://github.com/Frege/frege-gradle-plugin  
@@ -452,9 +455,10 @@ https://github.com/earldouglas/sbt-frege
 ### Leiningen
 https://github.com/Frege/frege-lein-plugin  
 - Compiles Java before Frege  
-- Use [frege-lein-template](https://github.com/Frege/frege-lein-template) for quick start -TODO: repeat when clojars.org is up
+- Use [frege-lein-template](https://github.com/Frege/frege-lein-template) for quick start
 
 ???
+43 mins
 Generally it is good idea to make sub-project (sub-modules) for each language and maybe layers.
 
 TODO: commands to quickly show files with configuration
@@ -466,6 +470,8 @@ Rumor says it's great, especially when you hack on Frege itself.
 
 #### Intellij IDEA misses good quality plugin
 But you can upvote it on: https://youtrack.jetbrains.com/issue/IDEABKL-7108
+???
+44 mins
 ---
 
 class: middle, center
@@ -475,7 +481,7 @@ class: middle, center
 class: middle, center
     
 # Lech Głowiak  
-<img src="scalac.png">  
+<a href="https://scalac.io"><img src="scalac.svg" height="64"></a>  
 <h2><img src="github.png" width="48">@LGLO</h2>
 <h2><img src="twitter.png" width="48">@LechGlowiak</h2>
 ---

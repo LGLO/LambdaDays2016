@@ -7,9 +7,12 @@ newReader = ST.run (do
                 ObjectMapper.reader mutableMapper
              )
         
-validateJson a = either (\e->Left e.getMessage) (\jsonNode -> Right jsonNode.toString) (newReader.readTree a)
+validateJson a = either 
+                   (\e->Left e.getMessage)
+                   (\jsonNode -> Right jsonNode.toString)
+                   (newReader.readTree a)
 
 main = do
          println $ validateJson "{ \"event\" : \"LambdaDays2016\", \"isGreat\":true}"
          println $ validateJson "[123, iamInvalid]"
-         
+
