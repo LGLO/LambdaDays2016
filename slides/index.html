@@ -69,7 +69,7 @@ class: middle, center
 ### 1848 - 1925
 
 ???
-Philosopher, logician, mathematician
+Philosopher, logician, mathematician  
 Functions that take functions as arguments back in the 19th century.
 
 3 mins
@@ -144,7 +144,8 @@ greet name = println $ "Hello, " ++ name ++ "!"
 :help JArray  
 :java
 
-###.red[Show basics!]
+###.red[Show basics!]  
+SPJ: Practical type checking for Higher ranked types  
 15 mins
 ---
 
@@ -173,7 +174,7 @@ import Data.JSON
 
 -- Parsing to JSON AST is enough for validation
 parseToValue :: String -> Either String JSON.Value
-parseToValue = parseJSON
+parseToValue = JSON.parseJSON
 
 type Validate = String -> Either String String    
 validateJson :: Validate
@@ -232,7 +233,6 @@ validateJson a = case (JacksonWrapper.parse a) of
 
 ```
 ???
-.red[<big>SHOW NO CODE IS GENERATED</big>]  
 One option is to write thin wrapper layer in Java to help yourself with later 'native' declarations.  
 This is the last command line example.  
 BTW: all examples should compile.  
@@ -342,6 +342,7 @@ java.nio.channels.FileChannel=io
 ```    
 .footnote[.center[https://github.com/Frege/frege-native-gen]]
 ???
+.red[<big>SHOW NO CODE IS GENERATED</big>]  
 see: jackson-native-gen/notes
 32 minutes
 ---
@@ -489,10 +490,11 @@ class: middle, center
 ##Thank you!
 I kindly ask for **frank** feedback!
 .footnote[All presented code is available at  
-[https://github.com/LGLO/LamdaDays2016]]
+[https://github.com/LGLO/LamdaDays2016]  
+**+ plugins examples + everything that was presented on slides**]
 
 ???
-Code works with the latest versions of Frege, plugins, libraries as of February 2016
+Code works with the latest versions of Frege, plugins, libraries as of February 2016  
 That ends my first presentation - your feedback is important to (possible) future listeners.
     
     </textarea>

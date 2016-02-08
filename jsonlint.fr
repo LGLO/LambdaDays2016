@@ -7,7 +7,7 @@ invalid = "[1,\"ala\", {\"a\":123]"
 
 -- Parsing to JSON AST is enough for validation
 parseToValue :: String -> Either String JSON.Value
-parseToValue = parseJSON
+parseToValue = JSON.parseJSON
 
 -- alternatively:
 -- parseToValue = parseJSON::(String -> Either String JSON.Value)
