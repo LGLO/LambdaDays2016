@@ -15,8 +15,9 @@ validate Nothing = missingBody
 validate (Just "") = missingBody
 validate (Just body) =
     let result = validateJson body
-      in do _ <- DB.logRequest body (isValid result)
-            return (toResponse result)
+      in do
+           _ <- DB.logRequest body (isValid result)
+           return (toResponse result)
 
 missingBody = IO.return (mkResponse 400 "There is no BODY.")
 

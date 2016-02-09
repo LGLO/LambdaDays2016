@@ -9,7 +9,10 @@ data JacksonWrapper = native com.github.LGLO.lambdadays.JacksonWrapper where
     pure native parse com.github.LGLO.lambdadays.JacksonWrapper.parse ::
                         String -> (IllegalArgumentException | JacksonJsonNode)
 
-validateJson :: String -> Either String String
+type ErrorStr = String
+type Validate = String -> Either ErrorStr String
+
+validateJson :: Validate
 validateJson a = case (JacksonWrapper.parse a) of 
                    Left err -> Left (err.getMessage)
                    Right j -> Right j.toString

@@ -7,9 +7,7 @@ higherOrder a b x = b (a x)
 
 listComprehension = [(a,b,c) | a<-[1..100], b<-[a..100], c<-[b..100], a*a+b*b == c*c]
 
-laziness = [1..1000]
-
-laziness2 = [1..]
+laziness = [1..]
 
 patternMatching :: Either a b -> b -> b
 patternMatching (Left x) b = b

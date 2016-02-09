@@ -2,18 +2,19 @@ module jsonlint.JsonLint where
 
 import Data.JSON
 
+type ErrorStr = String
+type Validate = String -> Either ErrorStr String
+
 parseToValue :: String -> Either String JSON.Value
 parseToValue = parseJSON
 
-validateJson :: String -> Either String String
+validateJson :: Validate
 validateJson a = case (parseToValue a) of Left err -> Left err
                                           Right v -> Right (show v)
                                          
 -- giving specific types for Java
-statusCode :: Either String String -> Int 
+statusCode :: Either ErrorStr String -> Int 
 statusCode = either (const 400) (const 200)
 
-output :: Either String String -> String
+output :: Either ErrorStr String -> String
 output = either id id
-
-iamLazy = orElse

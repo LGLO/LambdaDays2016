@@ -20,7 +20,7 @@ logRequest text valid =
 
 createRequestsTable :: IO ()
 createRequestsTable = do
-  stmt <- execute connection (Just "DROP TABLE requests")
---execute :: IO Connection -> Maybe String -> IO Bool  
-  stmt   <- execute connection (Just createTableSQL)
+--execute :: IO Connection -> Maybe String -> IO Bool
+  _ <- execute connection (Just "DROP TABLE requests")
+  stmt <- execute connection (Just createTableSQL)
   println $ "Table 'requests' created: " ++ (show stmt)

@@ -2,21 +2,20 @@ module JsonLint where
 
 import Data.JSON
 
-valid = "[1,\"ala\", {\"a\":123}]"
-invalid = "[1,\"ala\", {\"a\":123]"
-
+type ErrorStr = String
+type Validate = String -> Either ErrorStr String
 -- Parsing to JSON AST is enough for validation
 parseToValue :: String -> Either String JSON.Value
 parseToValue = JSON.parseJSON
-
 -- alternatively:
 -- parseToValue = parseJSON::(String -> Either String JSON.Value)
 
-type Validate = String -> Either String String
 --validateJson :: Validate -- optional thanks to type inference
 validateJson a = case (parseToValue a) of Left err -> Left err
                                           Right v -> Right (show v)
 
+valid = "[1,\"ala\", {\"a\":123}]"
+invalid = "[1,\"ala\", {\"a\":123]"
                   
 main = do
        println $ validateJson valid

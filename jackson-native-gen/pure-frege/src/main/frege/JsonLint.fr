@@ -2,15 +2,16 @@ module jsonlint.JsonLint where
 
 import com.fasterxml.jackson.FregeJackson
 
-newReader = ST.run (do
-                mutableMapper <- ObjectMapper.new ()
-                ObjectMapper.reader mutableMapper
-             )
-        
+mkReader = ST.run (
+    do mutableMapper <- ObjectMapper.new () -- tainted with Mutable
+       -- returns without Mutable because ObjectReader is immutable
+       mutableMapper.reader
+    ) 
+
 validateJson a = either 
-                   (\e->Left e.getMessage)
+                   (\ex -> Left ex.getMessage)
                    (\jsonNode -> Right jsonNode.toString)
-                   (newReader.readTree a)
+                   (mkReader.readTree a)
 
 main = do
          println $ validateJson "{ \"event\" : \"LambdaDays2016\", \"isGreat\":true}"
