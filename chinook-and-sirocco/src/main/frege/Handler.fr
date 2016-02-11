@@ -21,6 +21,7 @@ validate (Just body) =
 
 missingBody = IO.return (mkResponse 400 "There is no BODY.")
 
+toResponse :: Either String String -> Response
 toResponse = either (mkResponse 400) (mkResponse 200)
 
 mkResponse status output = 

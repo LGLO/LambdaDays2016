@@ -14,6 +14,12 @@
         .red {
           color: red;
         }
+        .green {
+           color: green;
+        }
+        .blue {
+          color: blue;
+        }
         #slideshow .slide .content { padding: 1em 3em;
           background-image: url(presentation/icon.png) no-repeat top right; }
         .remark-slide {
@@ -181,8 +187,18 @@ Micro-parsec is also built-in
 ---
 
 ### Second attempt: using 3rd party JVM library
-I have chosen to do part of work in Java first.  
-Wrappers can simplify `native` declarations.
+
+In order to call JVM code in Frege you use .red[`native`] declarations:
+* declare what classes and methods you want to use
+* what is their *purity* level : `pure`, `st`, `io`
+* specify if they throw or return `null`
+
+---
+
+### Second attempt: using 3rd party JVM library
+* Java code to simplify `native` declarations
+* `parse` is `pure`
+
 ```java
 private static ObjectReader r = new ObjectMapper().reader();
          
@@ -197,6 +213,7 @@ public static JsonNode parse(String s)
     }
 }
 ```
+.center[.footnote[ *because I'm not so good at Haskell]]
 ---
 ### Second attempt: using 3rd party JVM library
     
@@ -214,7 +231,7 @@ data JacksonWrapper =
 
 validateJson :: Validate
 validateJson a = case (JacksonWrapper.parse a) of
-                   Left err -> Left (err.getMessage)
+                   Left ex -> Left (ex.getMessage)
                    Right j -> Right j.toString
 
 ```
@@ -354,10 +371,9 @@ mkReader = ST.run (
        mutableMapper.reader
     )
 
-validateJson a = either 
-                   (\ex -> Left ex.getMessage)
-                   (\jsonNode -> Right jsonNode.toString)
-                   (mkReader.readTree a)
+validateJson a = case (mkReader.readTree a) of
+                   Left ex -> Left ex.getMessage
+                   Right jsonNode -> Right jsonNode.toString
 ```
 ---
 ### Webservice #1 - Java calls Frege
@@ -429,6 +445,7 @@ validate (Just body) =
 
 missingBody = IO.return (mkResponse 400 "There is no BODY.")
 
+toResponse :: Either String String -> Response
 toResponse = either (mkResponse 400) (mkResponse 200)
 
 mkResponse status output =
@@ -488,6 +505,24 @@ Rumor says it's great, especially when you hack on Frege itself.
 But you can upvote it on: https://youtrack.jetbrains.com/issue/IDEABKL-7108
 ???
 44 mins
+
+---
+##Community
+
+* Gitter: https://gitter.im/Frege/frege
+* IRC: **#frege** at https://freenode.net (connected to Gitter via bot)
+* Mailing group: http://groups.google.com/group/frege-programming-language
+* Stackoverflow: **frege** tag
+
+Contributors are .blue[welcome] - **Frege** is a nice thing to .green[hack on]!
+
+---
+
+###Links
+* "Practical type inference for arbitrary-ranked types" by Simon Peyton Jones http://research.microsoft.com/en-us/um/people/simonpj/papers/higher-rank/index.html  
+* "Learn You a Haskell for Great Good!" by Miran Lipovača http://learnyouahaskell.com  
+* "Haskell 2010 Language Report" http://www.haskell.org/onlinereport/haskell2010/  
+* Presented code + plugins examples + quite more [https://github.com/LGLO/LamdaDays2016]
 ---
 
 class: middle, center

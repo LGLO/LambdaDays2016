@@ -8,10 +8,9 @@ mkReader = ST.run (
        mutableMapper.reader
     ) 
 
-validateJson a = either 
-                   (\ex -> Left ex.getMessage)
-                   (\jsonNode -> Right jsonNode.toString)
-                   (mkReader.readTree a)
+validateJson a = case (mkReader.readTree a) of
+                   Left ex -> Left ex.getMessage
+                   Right jsonNode -> Right jsonNode.toString
 
 main = do
          println $ validateJson "{ \"event\" : \"LambdaDays2016\", \"isGreat\":true}"
