@@ -77,14 +77,14 @@ Talk is introductory - more details on JVM interoperability only
 * Type inference
 * Terse syntax
 * .red[_Runs on JVM_]
-* .red[_Interoperablity with JVM languages_]    
+* .red[_Interoperability with JVM languages_]    
 
 ???
-JVM interop is not as easy as in Clojure because of compiler watching out types.
+JVM interoperability is not as easy as in Clojure because of compiler watching out types.
 
 Show `basics.hs` **AFTER** presenting REPL
 
-5 mins
+5 minutes
 ---
 ### Distribution
 Prerequisites: JDK 7 or 8  
@@ -102,7 +102,7 @@ alias fregec='java -Xss1m -jar $FREGE_HOME/fregec.jar -d build'
 * remember to have `build` folder where you compile
 * I suggest reading wiki eventually
 
-6 mins
+6 minutes
 ---
 ### Read Evaluate Process Loop 
 
@@ -137,7 +137,7 @@ greet name = println $ "Hello, " ++ name ++ "!"
 
 ###.red[Show basics!]  
 SPJ: Practical type checking for Higher ranked types  
-15 mins
+15 minutes
 ---
 
 ### Online REPL
@@ -153,7 +153,7 @@ The 1st law of presentations: do not assume Internet connection, but try!
 Hoogle 5 for Frege: http://hoogle.haskell.org:8081
 <img src="hoogle.png" width="750">
 ???
-17 mins
+17 minutes
 ---
 
 ### Parsing JSON - first attempt
@@ -166,7 +166,7 @@ import Data.JSON
 type ErrorStr = String
 type Validate = String -> Either ErrorStr String
 -- Parsing to JSON AST is enough for validation
-parseToValue :: String -> Either String JSON.Value
+parseToValue :: String -> Either ErrorStr JSON.Value
 parseToValue = JSON.parseJSON
  
 validateJson :: Validate
@@ -183,15 +183,16 @@ Micro-parsec is also built-in
 `parseToValue` reifies return type  
 `validateJson` type annotation is optional  
 `validateJson` could be implemented with `do notation`, `either`, `>>=` ...  
-20 mins
+20 minutes
 ---
 
 ### Second attempt: using 3rd party JVM library
 
-In order to call JVM code in Frege you use .red[`native`] declarations:
+To call JVM code in Frege use .red[`native`] declarations:
 * declare what classes and methods you want to use
-* what is their *purity* level : `pure`, `st`, `io`
-* specify if they throw or return `null`
+* specify if instances are immutable
+* what is *purity* level of functions: `pure`, `ST`, `IO`
+* specify if functions throw or return `null`
 
 ---
 
@@ -239,7 +240,7 @@ validateJson a = case (JacksonWrapper.parse a) of
 One option is to write thin wrapper layer in Java to help yourself with later 'native' declarations.  
 This is the last command line example.  
 BTW: all examples should compile.  
-23 mins
+23 minutes
 ---
 
 ### Native declarations
@@ -271,14 +272,14 @@ For `div` compiler generates Java code that catches exception and returns `Left 
 show: native/frege/src/main/frege/rational.fr  
 Show that there is no code generated in Rational.java
 
-25 mins
+25 minutes
 ---
 
 ### Native declarations
 
 #### `native` for mutable objects
 ```haskell         
--- AB is envelope for final int 'a' and non final int 'b'
+-- AB is an envelope for final int 'a' and non final int 'b'
 data AB = native mutable.AB where
     native new :: Int -> Int -> ST s (Mutable s AB)
     pure native a getA :: AB -> Int
@@ -301,7 +302,7 @@ thaw :: Freezable f => m -> ST s (Mutable s m)
 `readonly` Apply a pure function to a mutable value that pretends to be read-only. The function must not rely on anything that could change in the mutable data!  
 `readonly id` - for very brave!
 
-27 mins
+27 minutes
 ---
          
 ### Native declarations
@@ -322,7 +323,7 @@ data TT2 = native io.TelephoneTime where
 ```
 ???
   
-28 mins
+28 minutes
 ---
 
 ### native-gen-tool
@@ -404,7 +405,7 @@ output = either id id
 Show `App.java` and `JsonLint.fr`  
 Run `./valid.sh` and `./invalid.sh`
 
-34 mins
+34 minutes
 ---
 ### Webservice #2 - Frege only* solution
 *Chinook* for web  
@@ -472,7 +473,7 @@ createRequestsTable = do
   println $ "Table 'requests' created: " ++ (show stmt)
 ```
 ???
-39 mins
+39 minutes
 ---
 ### Gradle
 https://github.com/Frege/frege-gradle-plugin  
@@ -491,7 +492,7 @@ https://github.com/Frege/frege-lein-plugin
 - Use [frege-lein-template](https://github.com/Frege/frege-lein-template) for quick start
 
 ???
-43 mins
+43 minutes
 Generally it is good idea to make sub-project (sub-modules) for each language and maybe layers.
 
 TODO: commands to quickly show files with configuration
@@ -504,7 +505,7 @@ Rumor says it's great, especially when you hack on Frege itself.
 #### Intellij IDEA misses good quality plugin
 But you can upvote it on: https://youtrack.jetbrains.com/issue/IDEABKL-7108
 ???
-44 mins
+44 minutes
 
 ---
 ##Community

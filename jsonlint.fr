@@ -5,7 +5,7 @@ import Data.JSON
 type ErrorStr = String
 type Validate = String -> Either ErrorStr String
 -- Parsing to JSON AST is enough for validation
-parseToValue :: String -> Either String JSON.Value
+parseToValue :: String -> Either ErrorStr JSON.Value
 parseToValue = JSON.parseJSON
 -- alternatively:
 -- parseToValue = parseJSON::(String -> Either String JSON.Value)
