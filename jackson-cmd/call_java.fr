@@ -1,6 +1,6 @@
 module jsonlint.CallJava where
 
-data JacksonJsonNode = native com.fasterxml.jackson.databind.JsonNode where
+data JacksonJsonNode = pure native com.fasterxml.jackson.databind.JsonNode where
     pure native toString :: JacksonJsonNode -> String
 
 pure native getMessage :: IllegalArgumentException -> String

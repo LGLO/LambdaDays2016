@@ -1,6 +1,6 @@
 module Rational where
 
-data Rational = native immutable.Rational where
+data Rational = pure native immutable.Rational where
     -- static
     pure native new :: Long -> Long -> Rational
     pure native integer immutable.Rational.integer :: Long -> Rational

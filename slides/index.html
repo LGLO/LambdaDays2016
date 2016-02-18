@@ -220,7 +220,7 @@ public static JsonNode parse(String s)
     
 ```haskell
 data JacksonJsonNode = 
-  native com.fasterxml.jackson.databind.JsonNode where
+  pure native com.fasterxml.jackson.databind.JsonNode where
    pure native toString :: JacksonJsonNode -> String
 
 pure native getMessage :: IllegalArgumentException -> String
@@ -248,7 +248,7 @@ BTW: all examples should compile.
 #### `pure native` for immutable objects only
          
 ```haskell
-data Rational = native immutable.Rational where
+data Rational = pure native immutable.Rational where
     -- static
     pure native new :: Long -> Long -> Rational
     pure native integer immutable.Rational.integer :: Long ->
